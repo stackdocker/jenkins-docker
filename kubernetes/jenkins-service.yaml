@@ -1,0 +1,20 @@
+# Maintainer tangfeixiong <fxtang@qingyuanos.com>
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    qingyuanos.io/catalog-by: '{"version": "v1alpha", "lib": "https://github.com/qingyuancloud/kube-harpoon", "repo": "https://github.com/fabric8io/jenkins-docker"}'
+  labels:
+    app: jenkins
+    heritage: qingyuancloud
+  name: jenkins-fabric8
+spec:
+  ports:
+  - name: ui
+    nodePort: 32134 # Optional, or Kubernetes generate a random port if not customized
+    port: 8080
+    protocol: TCP
+  selector:
+    app: jenkins
+  type: NodePort

@@ -1,0 +1,36 @@
+# Maintainer tangfeixiong <fxtang@qingyuanos.com>
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  annotations:
+    qingyuanos.io/catalog-by: '{"version": "v1alpha", "lib": "https://github.com/qingyuancloud/kube-harpoon", "repo": "https://github.com/fabric8io/jenkins-docker"}'
+  labels:
+    app: jenkins
+    heritage: qingyuancloud
+  name: jenkins-fabric8
+  # namespace: harpoon
+spec:
+  replicas: 1
+  selector:
+    app: jenkins
+  template:
+    metadata:
+      labels:
+        app: jenkins
+        heritage: qingyuancloud
+      name: jenkins-fabric8
+    spec:
+      containers:
+      - env:
+        - name: NEXUS_SERVICE_HOST
+          value: "10.3.0.220" # should change it to match actual environment
+        - name: NEXUS_SERVICE_PORT
+          value: "8081"
+        image: docker.io/fabric8/jenkins-docker:2.2.216
+        imagePullPolicy: IfNotPresent
+        name: jenkins-fabric8
+        ports:
+        - containerPort: 8080
+          name: ui
+          protocol: TCP
